@@ -1,10 +1,9 @@
 services:
   - type: web
     name: ccc-network
-    plan: free
     env: docker
+    plan: free
 
-    # ✅ Correct way to use Docker image in Blueprints
     image:
       url: n8nio/n8n:latest
 
@@ -25,18 +24,20 @@ services:
       - key: N8N_PORT
         value: "$PORT"
 
+      # ✅ Required for webhook triggers
       - key: WEBHOOK_URL
         value: "https://ccc-network.onrender.com/"
+
       - key: NODE_ENV
         value: "production"
 
-    # ✅ Correct persistent disk schema for Blueprints
+    # ✅ Persistent disk (workflow + credentials storage)
     disk:
       name: n8n_data
       mountPath: /home/node/.n8n
       sizeGB: 1
 
-    # ✅ Correct health check schema for Render Blueprints
+    # ✅ Proper health checks for Render Blueprint API
     healthCheck:
       path: /
       intervalSeconds: 30
